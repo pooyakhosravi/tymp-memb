@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 
@@ -33,15 +33,19 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @app.route('/', methods=['GET', 'POST'])
-def upload_file():
+def home_page():
+    return render_template('index.html')
+
+@app.route('/upload/', methods=['POST'])
+def home_page():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
-        print(file)
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
@@ -58,26 +62,14 @@ def upload_file():
             pred_class = np.argmax(pred)
             pred_label = "Normal" if pred_class == 0 else "Abnormal"
 
-            return '''
-            <!doctype html>
-            <h1>Model Predicitons<h1>
+            preds = {'label': pred_label, 'probs': pred}
+            
+            return redirect(url_for('experiment_page', preds=preds))
 
-            <p>The model prediction is: {}<p>
-            <br/>
-            with probabilties of {}
-            '''.format(pred_label, str(pred))
 
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+@app.route('/experiment/', methods=['GET', 'POST'])
+def experiment_page():
+    return render_template('sample.html')
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -86,4 +78,4 @@ def uploaded_file(filename):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(host='127.0.0.1', debug=True, port=8000)
