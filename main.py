@@ -10,6 +10,8 @@ from model_loader import ModelLoader
 import os.path
 import sys
 
+
+import json
 import numpy as np
 
 
@@ -39,7 +41,7 @@ def home_page():
     return render_template('index.html')
 
 @app.route('/upload/', methods=['POST'])
-def home_page():
+def predict_image():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -62,9 +64,9 @@ def home_page():
             pred_class = np.argmax(pred)
             pred_label = "Normal" if pred_class == 0 else "Abnormal"
 
-            preds = {'label': pred_label, 'probs': pred}
+            preds = {'label': pred_label, 'probs': pred.tolist()}
             
-            return redirect(url_for('experiment_page', preds=preds))
+            return json.dumps(preds)
 
 
 @app.route('/experiment/', methods=['GET', 'POST'])
