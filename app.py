@@ -69,7 +69,7 @@ def predict_image():
             return json.dumps(preds)
 
 
-@app.route('/experiment/', methods=['GET', 'POST'])
+@app.route('/tm/', methods=['GET', 'POST'])
 def experiment_page():
     return render_template('sample.html')
 
@@ -80,4 +80,4 @@ def uploaded_file(filename):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', debug=True, port=8000)
+    app.run(host='0.0.0.0', debug=True, port=8080)
