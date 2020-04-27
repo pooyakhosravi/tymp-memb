@@ -128,6 +128,9 @@
               </div>
               <div class="div-td"><span class="pred-label" data-dz-label></span> </div>
               <div class="div-td"><span class="pred-prob" data-dz-prob></span></div>
+
+              <div class="div-td"><span class="pred-multi-label" data-dz-label></span> </div>
+              <div class="div-td"><span class="pred-multi-prob" data-dz-prob></span></div>
               <div class="div-td">
                 <span data-dz-remove><a href="#"><i class="icon-times" alt="Click me to remove the file."></i> Remove
                     Image</a></span>
@@ -144,6 +147,8 @@
               <div class="div-th">Image Preview</div>
               <div class="div-th">Classification Label</div>
               <div class="div-th">Class probabilities <br> (Normal, Abnormal)</div>
+              <div class="div-th">Multi Classification Label</div>
+              <div class="div-th">Multi Class probabilities <br> (Normal, AOM, CSOM, Earwax, OE)</div>
               <div class="div-th"></div>
             </div>
           </div>
@@ -196,12 +201,18 @@
         success: function (file, response) {
           response = JSON.parse(response);
           $(file.previewTemplate).find('.pred-label').append(document.createTextNode(response.label));
+          $(file.previewTemplate).find('.pred-multi-label').append(document.createTextNode(response.label_multi));
 
           response.probs = response.probs[0].map(function (prob) {
             return prob.toFixed(3)
           });
 
+          response.probs_multi = response.probs_multi[0].map(function (prob) {
+            return prob.toFixed(3)
+          });
+
           $(file.previewTemplate).find('.pred-prob').append(document.createTextNode(response.probs));
+          $(file.previewTemplate).find('.pred--multi-prob').append(document.createTextNode(response.probs_multi));
           $(file.previewTemplate).find('.dz-progress').fadeOut();
         },
         url: '/upload/'

@@ -25,9 +25,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 
 model_path = os.path.join(app.config['MODEL_FOLDER'], "tmpy_90")
+model_mutli_path = os.path.join(app.config['MODEL_FOLDER'], "tmpy_multi_512")
+
+LABELS = ["Normal", "AOM", "CSOM", "Earwax", "OE"]
+n_classes = 5
+
 
 model = ModelLoader(model_path)
-
+model_multi = ModelLoader(model_mutli_path)
 
 
 
@@ -61,10 +66,17 @@ def predict_image():
 
             pred = model.predict(filename)
 
+            pred_multi = model_multi.predict(filename)
+            
+
             pred_class = np.argmax(pred)
             pred_label = "Normal" if pred_class == 0 else "Abnormal"
 
-            preds = {'label': pred_label, 'probs': pred.tolist()}
+            pred_multi_class = np.argmax(pred_multi)
+            pred_multi_label = LABELS[pred_multi_class]
+
+
+            preds = {'label': pred_label, 'probs': pred.tolist(), 'label_multi': pred_multi_label, 'probs_multi': pred_multi.tolist()}
             
             return json.dumps(preds)
 
