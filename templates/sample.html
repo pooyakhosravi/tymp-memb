@@ -212,7 +212,7 @@
           });
 
           $(file.previewTemplate).find('.pred-prob').append(document.createTextNode(response.probs));
-          $(file.previewTemplate).find('.pred--multi-prob').append(document.createTextNode(response.probs_multi));
+          $(file.previewTemplate).find('.pred-multi-prob').append(document.createTextNode(response.probs_multi));
           $(file.previewTemplate).find('.dz-progress').fadeOut();
         },
         url: '/upload/'
