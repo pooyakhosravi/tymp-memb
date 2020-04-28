@@ -204,11 +204,11 @@
           $(file.previewTemplate).find('.pred-multi-label').append(document.createTextNode(response.label_multi));
 
           response.probs = response.probs[0].map(function (prob) {
-            return prob.toFixed(3)
+            return prob.toFixed(1)
           });
 
           response.probs_multi = response.probs_multi[0].map(function (prob) {
-            return prob.toFixed(3)
+            return prob.toFixed(1)
           });
 
           $(file.previewTemplate).find('.pred-prob').append(document.createTextNode(response.probs));
