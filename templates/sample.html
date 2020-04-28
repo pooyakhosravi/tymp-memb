@@ -196,12 +196,13 @@
     
 
     $(document).ready(() => {
-      LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
+      
       $('#uploadzone').dropzone({
         previewsContainer: "#dropzone-preview",
         previewTemplate: document.getElementById('preview-template').innerHTML,
         acceptedFiles: 'image/*',
         success: function (file, response) {
+          var LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
           response = JSON.parse(response);
           $(file.previewTemplate).find('.pred-label').append(document.createTextNode(response.label));
           $(file.previewTemplate).find('.pred-multi-label').append(document.createTextNode(response.label_multi));
@@ -210,12 +211,13 @@
             return prob.toFixed(1);
           });
 
-          response.probs_multi = response.probs_multi[0].map(function (i, prob) {
-            return LABELS[i] + ": " + prob.toFixed(1) + "<br/>";
+          response.probs_multi[0].forEach(function (i, prob) {
+            var LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
+            $(file.previewTemplate).find('.pred-multi-prob').append(document.createTextNode(LABELS[i] + ": " + prob.toFixed(1)));
+            $(file.previewTemplate).find('.pred-multi-prob').append(document.createElement("br"));
           });
 
           $(file.previewTemplate).find('.pred-prob').append(document.createTextNode(response.probs));
-          $(file.previewTemplate).find('.pred-multi-prob').append(document.createTextNode(response.probs_multi));
           $(file.previewTemplate).find('.dz-progress').fadeOut();
         },
         url: '/upload/'
