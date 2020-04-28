@@ -211,9 +211,9 @@
             return prob.toFixed(1);
           });
 
-          response.probs_multi[0].forEach(function (i, prob) {
+          response.probs_multi[0].forEach(function (prob, i) {
             var LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
-            $(file.previewTemplate).find('.pred-multi-prob').append(document.createTextNode(LABELS[i] + ": " + prob.toFixed(1)));
+            $(file.previewTemplate).find('.pred-multi-prob').append(document.createTextNode(LABELS[i] + ":" + prob.toFixed(1)));
             $(file.previewTemplate).find('.pred-multi-prob').append(document.createElement("br"));
           });
 
