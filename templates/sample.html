@@ -193,9 +193,10 @@
 
     Dropzone.autoDiscover = false;
 
-    var LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
+    
 
     $(document).ready(() => {
+      LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
       $('#uploadzone').dropzone({
         previewsContainer: "#dropzone-preview",
         previewTemplate: document.getElementById('preview-template').innerHTML,
@@ -210,7 +211,7 @@
           });
 
           response.probs_multi = response.probs_multi[0].map(function (i, prob) {
-            return LABELS[i] + prob.toFixed(1);
+            return LABELS[i] + ": " + prob.toFixed(1) + "<br/>";
           });
 
           $(file.previewTemplate).find('.pred-prob').append(document.createTextNode(response.probs));
