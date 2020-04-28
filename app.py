@@ -27,7 +27,7 @@ app.config['MODEL_FOLDER'] = MODEL_FOLDER
 model_path = os.path.join(app.config['MODEL_FOLDER'], "tmpy_90")
 model_mutli_path = os.path.join(app.config['MODEL_FOLDER'], "MobileNetV2_multiclass_224x224_667.hdf5")
 
-LABELS = ["Normal", "AOM", "CSOM", "Earwax", "OE"]
+LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"]
 n_classes = 5
 
 

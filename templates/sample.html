@@ -148,7 +148,7 @@
               <div class="div-th">Classification Label</div>
               <div class="div-th">Class probabilities <br> (Normal, Abnormal)</div>
               <div class="div-th">Multi Classification Label</div>
-              <div class="div-th">Multi Class probabilities <br> (Normal, AOM, CSOM, Earwax, OE)</div>
+              <div class="div-th">Multi Class probabilities <br> (Normal, AOM, CSOM, Cerumen, OE)</div>
               <div class="div-th"></div>
             </div>
           </div>
@@ -193,6 +193,8 @@
 
     Dropzone.autoDiscover = false;
 
+    var LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
+
     $(document).ready(() => {
       $('#uploadzone').dropzone({
         previewsContainer: "#dropzone-preview",
@@ -204,11 +206,11 @@
           $(file.previewTemplate).find('.pred-multi-label').append(document.createTextNode(response.label_multi));
 
           response.probs = response.probs[0].map(function (prob) {
-            return prob.toFixed(1)
+            return prob.toFixed(1);
           });
 
-          response.probs_multi = response.probs_multi[0].map(function (prob) {
-            return prob.toFixed(1)
+          response.probs_multi = response.probs_multi[0].map(function (i, prob) {
+            return LABELS[i] + prob.toFixed(1);
           });
 
           $(file.previewTemplate).find('.pred-prob').append(document.createTextNode(response.probs));
