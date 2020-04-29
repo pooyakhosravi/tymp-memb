@@ -201,6 +201,7 @@
         previewsContainer: "#dropzone-preview",
         previewTemplate: document.getElementById('preview-template').innerHTML,
         acceptedFiles: 'image/*',
+        maxFilesize: 20,
         success: function (file, response) {
           var LABELS = ["Normal", "AOM", "CSOM", "Cerumen", "OE"];
           response = JSON.parse(response);
